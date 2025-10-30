@@ -1,12 +1,106 @@
+'use client';
+
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-
-export const metadata = {
-  title: 'Connect | The Figs',
-  description: 'Get in touch with The Figs. Sign up for our newsletter, follow us on social media, or send us a message.',
-};
+import { useState } from 'react';
 
 export default function ConnectPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isNewsletterSubmitting, setIsNewsletterSubmitting] = useState(false);
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Check honeypot - if filled, it's a bot
+    const honeypot = formData.get('_gotcha');
+    if (honeypot) {
+      // Silently fail for bots
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('https://formspree.io/f/xblpkjjn', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        form.reset();
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleNewsletterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsNewsletterSubmitting(true);
+    setNewsletterStatus('idle');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Check honeypot - if filled, it's a bot
+    const honeypot = formData.get('_gotcha_newsletter');
+    if (honeypot) {
+      // Silently fail for bots
+      setIsNewsletterSubmitting(false);
+      return;
+    }
+
+    // TODO: Add your Make.com webhook URL here
+    const MAKE_WEBHOOK_URL = process.env.NEXT_PUBLIC_MAKE_WEBHOOK_URL || '';
+
+    if (!MAKE_WEBHOOK_URL) {
+      console.warn('Make.com webhook URL not configured. Add NEXT_PUBLIC_MAKE_WEBHOOK_URL to .env.local');
+      setNewsletterStatus('error');
+      setIsNewsletterSubmitting(false);
+      return;
+    }
+
+    try {
+      const email = formData.get('newsletter-email');
+      const response = await fetch(MAKE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email,
+          timestamp: new Date().toISOString(),
+          source: 'website_connect_page'
+        })
+      });
+
+      if (response.ok) {
+        setNewsletterStatus('success');
+        form.reset();
+      } else {
+        setNewsletterStatus('error');
+      }
+    } catch (error) {
+      setNewsletterStatus('error');
+    } finally {
+      setIsNewsletterSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-figs-cream">
       <Navigation />
@@ -31,7 +125,24 @@ export default function ConnectPage() {
               Thank you for your interest in The Figs! We'd love to hear from you. Please fill out
               the form below with your inquiry, and we'll get back to you as soon as possible.
             </p>
-            <form className="space-y-6">
+
+            {/* Success Message */}
+            {submitStatus === 'success' && (
+              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-800 font-semibold">Message sent successfully! 🎉</p>
+                <p className="text-green-700 text-sm mt-1">We'll get back to you as soon as possible.</p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {submitStatus === 'error' && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-800 font-semibold">Oops! Something went wrong.</p>
+                <p className="text-red-700 text-sm mt-1">Please try again or reach out via social media.</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-900">
@@ -86,11 +197,22 @@ export default function ConnectPage() {
                 />
               </div>
 
+              {/* Honeypot field - hidden from users, visible to bots */}
+              <input
+                type="text"
+                name="_gotcha"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
               <button
                 type="submit"
-                className="w-full rounded-full bg-figs-pink px-6 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-figs-pink"
+                disabled={isSubmitting}
+                className="w-full rounded-full bg-figs-pink px-6 py-3 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition-opacity focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-figs-pink disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
@@ -105,7 +227,24 @@ export default function ConnectPage() {
               <p className="mb-6 opacity-90">
                 Get updates on new music, tour dates, and exclusive content delivered straight to your inbox.
               </p>
-              <form className="space-y-4">
+
+              {/* Success Message */}
+              {newsletterStatus === 'success' && (
+                <div className="mb-6 p-4 bg-white/20 border border-white/30 rounded-lg">
+                  <p className="font-semibold">Welcome to the family! 🎉</p>
+                  <p className="text-sm mt-1 opacity-90">Check your inbox for a confirmation.</p>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {newsletterStatus === 'error' && (
+                <div className="mb-6 p-4 bg-white/20 border border-white/30 rounded-lg">
+                  <p className="font-semibold">Oops! Something went wrong.</p>
+                  <p className="text-sm mt-1 opacity-90">Please try again later.</p>
+                </div>
+              )}
+
+              <form onSubmit={handleNewsletterSubmit} className="space-y-4">
                 <div>
                   <label htmlFor="newsletter-email" className="sr-only">
                     Email address
@@ -114,15 +253,28 @@ export default function ConnectPage() {
                     type="email"
                     name="newsletter-email"
                     id="newsletter-email"
+                    required
                     className="block w-full rounded-md border-0 px-4 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-white"
                     placeholder="Enter your email"
                   />
                 </div>
+
+                {/* Honeypot field - hidden from users, visible to bots */}
+                <input
+                  type="text"
+                  name="_gotcha_newsletter"
+                  style={{ display: 'none' }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
+
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-figs-pink shadow-sm hover:bg-gray-100 transition-colors"
+                  disabled={isNewsletterSubmitting}
+                  className="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-figs-pink shadow-sm hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Subscribe
+                  {isNewsletterSubmitting ? 'Subscribing...' : 'Subscribe'}
                 </button>
               </form>
             </div>
