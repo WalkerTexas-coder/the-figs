@@ -1,5 +1,6 @@
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Music | The Figs',
@@ -103,9 +104,14 @@ export default function MusicPage() {
               </div>
             </div>
             <div className="bg-figs-cream/50 p-8 md:p-12 flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-gray-600 text-sm">Album artwork coming soon</p>
-              </div>
+              <Image
+                src="/the_figs_present.webp"
+                alt="The Figs Present: The Figs Album Cover"
+                width={400}
+                height={400}
+                className="rounded-lg shadow-lg"
+                priority
+              />
             </div>
           </div>
         </div>
