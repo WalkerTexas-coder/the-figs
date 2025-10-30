@@ -104,6 +104,19 @@ export default function Footer() {
         <p className="text-center text-xs leading-5 text-gray-500">
           &copy; {new Date().getFullYear()} The Figs. All rights reserved.
         </p>
+
+        {/* Developer Credit */}
+        <p className="text-center text-xs leading-5 text-gray-400 mt-2">
+          lovingly built by{' '}
+          <a
+            href="https://hirethiswalker.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-figs-pink hover:underline"
+          >
+            hirethiswalker.com
+          </a>
+        </p>
       </div>
     </footer>
   );

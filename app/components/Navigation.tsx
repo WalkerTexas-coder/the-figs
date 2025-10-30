@@ -2,21 +2,49 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 10) {
+        // Always show when at top
+        setIsVisible(true);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        setIsVisible(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+    return () => window.removeEventListener('scroll', controlNavbar);
+  }, [lastScrollY]);
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Music', href: '/music' },
-    { name: 'About', href: '/about' },
-    { name: 'Connect', href: '/connect' },
-    { name: 'Shop', href: '/shop' },
+    { name: 'Home', href: '/', external: false },
+    { name: 'Music', href: '/music', external: false },
+    { name: 'About', href: '/about', external: false },
+    { name: 'Connect', href: '/connect', external: false },
+    { name: 'Shop', href: 'https://www.thefigsmusic.com/', external: true },
   ];
 
   return (
-    <header className="bg-figs-cream border-b border-gray-200">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 bg-figs-cream border-b border-gray-200 transition-transform duration-300 ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}
+    >
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         {/* Logo */}
         <div className="flex lg:flex-1">
@@ -61,13 +89,25 @@ export default function Navigation() {
         {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-8">
           {navigation.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium leading-6 text-gray-900 hover:text-figs-pink transition-colors underline decoration-transparent hover:decoration-figs-pink underline-offset-4"
-            >
-              {item.name}
-            </Link>
+            item.external ? (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium leading-6 text-gray-900 hover:text-figs-pink transition-colors underline decoration-transparent hover:decoration-figs-pink underline-offset-4"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-medium leading-6 text-gray-900 hover:text-figs-pink transition-colors underline decoration-transparent hover:decoration-figs-pink underline-offset-4"
+              >
+                {item.name}
+              </Link>
+            )
           ))}
         </div>
 
@@ -136,14 +176,27 @@ export default function Navigation() {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-figs-pink hover:text-white transition-colors"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
+                    item.external ? (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-figs-pink hover:text-white transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-figs-pink hover:text-white transition-colors"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )
                   ))}
                 </div>
                 <div className="py-6">
@@ -177,6 +230,8 @@ export default function Navigation() {
           </div>
         </div>
       )}
+
+    
     </header>
   );
 }

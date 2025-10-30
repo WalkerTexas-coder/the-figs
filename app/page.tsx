@@ -1,5 +1,7 @@
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import InstagramEmbed from './components/InstagramEmbed';
+import TikTokEmbed from './components/TikTokEmbed';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -7,8 +9,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-figs-cream">
       <Navigation />
+        {/* Banner Bar */}
+     
 
-      <main>
+      <main className="pt-24">
+         <div className="bg-figs-pink text-white text-center py-2 px-4">
+        <p className="text-sm font-semibold tracking-wide">
+              
+        </p>
+      </div>
         {/* Hero Section */}
         <section className="relative overflow-hidden py-20 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -18,8 +27,8 @@ export default function Home() {
                 <Image
                   src="/The_Figs_LOGO.avif"
                   alt="The Figs"
-                  width={300}
-                  height={150}
+                  width={600}
+                  height={300}
                   className="h-24 w-auto sm:h-32"
                   priority
                 />
@@ -52,19 +61,25 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Featured Album - Spotify Embed */}
-        <section className="py-16 sm:py-24">
+        {/* Listen & Follow - Combined Section */}
+        <section className="py-16 sm:py-24 bg-white">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center mb-12">
               <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                Listen to The Figs
+                Listen & Follow Our Journey
               </h2>
               <p className="mt-4 text-lg text-gray-600">
-                Stream our latest album and fan favorites on Spotify
+                Stream our music on Spotify and see what we're up to on social media
               </p>
             </div>
-            <div className="mx-auto max-w-3xl">
+
+            {/* All Embeds in One Row */}
+            <div className="grid lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {/* Spotify Embed */}
               <div className="rounded-xl overflow-hidden shadow-lg bg-white p-4">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                  Spotify
+                </h3>
                 <iframe
                   data-testid="embed-iframe"
                   style={{ borderRadius: '12px' }}
@@ -78,37 +93,26 @@ export default function Home() {
                   title="The Figs on Spotify"
                 />
               </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Stats / Social Proof */}
-        <section className="py-16 sm:py-24 bg-white">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl lg:max-w-none">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  Join Our Growing Community
-                </h2>
-                <p className="mt-4 text-lg leading-8 text-gray-600">
-                  Be part of something special
-                </p>
+              {/* Instagram Feed */}
+              <div className="rounded-xl overflow-hidden shadow-lg bg-white p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                  Instagram
+                </h3>
+                <div className="flex justify-center">
+                  <InstagramEmbed />
+                </div>
               </div>
-              <dl className="mt-16 grid grid-cols-1 gap-8 overflow-hidden rounded-2xl text-center sm:grid-cols-2 lg:grid-cols-3">
-                <div className="flex flex-col bg-figs-cream/50 p-8 rounded-xl">
-                  <dt className="text-sm font-semibold leading-6 text-gray-600">Monthly Listeners</dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-figs-pink">1.9M+</dd>
+
+              {/* TikTok Feed */}
+              <div className="rounded-xl overflow-hidden shadow-lg bg-white p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
+                  TikTok
+                </h3>
+                <div className="flex justify-center">
+                  <TikTokEmbed />
                 </div>
-                <div className="flex flex-col bg-figs-cream/50 p-8 rounded-xl">
-                  <dt className="text-sm font-semibold leading-6 text-gray-600">Instagram Followers</dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-figs-pink">96K+</dd>
-                </div>
-                <div className="flex flex-col bg-figs-cream/50 p-8 rounded-xl">
-                  <dt className="text-sm font-semibold leading-6 text-gray-600">Hit Single</dt>
-                  <dd className="order-first text-3xl font-semibold tracking-tight text-figs-pink">#1 on iTunes</dd>
-                  <dd className="text-xs text-gray-500 mt-1">Lemonade feat. Forrest Frank</dd>
-                </div>
-              </dl>
+              </div>
             </div>
           </div>
         </section>

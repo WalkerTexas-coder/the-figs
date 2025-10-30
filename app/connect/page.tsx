@@ -1,7 +1,5 @@
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import InstagramEmbed from '../components/InstagramEmbed';
-import TikTokEmbed from '../components/TikTokEmbed';
 
 export const metadata = {
   title: 'Connect | The Figs',
@@ -13,7 +11,7 @@ export default function ConnectPage() {
     <div className="min-h-screen bg-figs-cream">
       <Navigation />
 
-      <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <main className="mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Let's Connect
@@ -206,36 +204,6 @@ export default function ConnectPage() {
                 Interested in booking The Figs for your venue or event? Send us a message using
                 the contact form with details about your event.
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Social Media Feeds Section */}
-        <div className="mt-24">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Follow Our Journey
-            </h2>
-            <p className="text-lg text-gray-600">
-              See what we're up to on Instagram and TikTok
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {/* Instagram Feed */}
-            <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
-                Instagram
-              </h3>
-              <InstagramEmbed />
-            </div>
-
-            {/* TikTok Feed */}
-            <div className="bg-white rounded-2xl shadow-xl p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">
-                TikTok
-              </h3>
-              <TikTokEmbed />
             </div>
           </div>
         </div>

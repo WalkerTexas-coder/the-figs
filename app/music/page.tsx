@@ -11,7 +11,7 @@ export default function MusicPage() {
     <div className="min-h-screen bg-figs-cream">
       <Navigation />
 
-      <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <main className="mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Our Music
@@ -54,7 +54,7 @@ export default function MusicPage() {
               <span className="text-gray-900 font-semibold">Spotify</span>
             </a>
             <a
-              href="#"
+              href="https://music.apple.com/us/artist/the-figs/272193693"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center p-6 bg-white rounded-lg shadow hover:shadow-lg transition-shadow hover:bg-figs-pink/10"
@@ -62,7 +62,7 @@ export default function MusicPage() {
               <span className="text-gray-900 font-semibold">Apple Music</span>
             </a>
             <a
-              href="#"
+              href="https://www.youtube.com/@the.figs.official"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center p-6 bg-white rounded-lg shadow hover:shadow-lg transition-shadow hover:bg-figs-pink/10"
@@ -70,7 +70,7 @@ export default function MusicPage() {
               <span className="text-gray-900 font-semibold">YouTube Music</span>
             </a>
             <a
-              href="#"
+              href="https://music.amazon.com/artists/B0D5W56X9H/the-figs"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center p-6 bg-white rounded-lg shadow hover:shadow-lg transition-shadow hover:bg-figs-pink/10"
