@@ -29,9 +29,19 @@
 
 ### TikTok
 - **Handle**: @the.figs.official
+- **URL**: https://www.tiktok.com/@the.figs.official
 - **Followers**: 10.6K
 - **Likes**: 67K
 - **Content**: Short music clips, trend participation, songwriting breakdowns
+- **Embed Code**:
+```html
+<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@the.figs.official" data-unique-id="the.figs.official" data-embed-type="creator" style="max-width: 780px; min-width: 288px;" >
+  <section>
+    <a target="_blank" href="https://www.tiktok.com/@the.figs.official?refer=creator_embed">@the.figs.official</a>
+  </section>
+</blockquote>
+<script async src="https://www.tiktok.com/embed.js"></script>
+```
 
 ### Facebook
 - **Name**: The Figs
