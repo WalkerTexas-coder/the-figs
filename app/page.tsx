@@ -1,5 +1,6 @@
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
@@ -12,9 +13,18 @@ export default function Home() {
         <section className="relative overflow-hidden py-20 sm:py-32">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="mx-auto max-w-2xl text-center">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Failed models turned folk band
-              </h1>
+              {/* Logo */}
+              <div className="flex justify-center mb-8">
+                <Image
+                  src="/The_Figs_LOGO.avif"
+                  alt="The Figs"
+                  width={300}
+                  height={150}
+                  className="h-24 w-auto sm:h-32"
+                  priority
+                />
+              </div>
+
               <p className="mt-6 text-lg leading-8 text-gray-600">
                 Nostalgic campfire songs, barefoot crusades, and late summer thunder shows.
                 Join Bailey + Micah + Friends on a journey of faith, folk, and good stories.
