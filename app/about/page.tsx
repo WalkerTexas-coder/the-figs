@@ -11,7 +11,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-figs-cream">
       <Navigation />
 
-      <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <main className="mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Our Story
