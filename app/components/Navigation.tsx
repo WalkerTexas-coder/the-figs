@@ -35,7 +35,7 @@ export default function Navigation() {
     { name: 'Home', href: '/', external: false },
     { name: 'Music', href: '/music', external: false },
     { name: 'About', href: '/about', external: false },
-    { name: 'Connect', href: '/connect', external: false },
+    { name: 'Contact', href: 'https://www.thefigsmusic.com/pages/contact', external: true },
     { name: 'Shop', href: 'https://www.thefigsmusic.com/', external: true },
   ];
 

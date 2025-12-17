@@ -4,11 +4,11 @@ import Image from 'next/image';
 export default function Footer() {
   const navigation = {
     main: [
-      { name: 'Home', href: '/' },
-      { name: 'Music', href: '/music' },
-      { name: 'About', href: '/about' },
-      { name: 'Connect', href: '/connect' },
-      { name: 'Shop', href: '/shop' },
+      { name: 'Home', href: '/', external: false },
+      { name: 'Music', href: '/music', external: false },
+      { name: 'About', href: '/about', external: false },
+      { name: 'Contact', href: 'https://www.thefigsmusic.com/pages/contact', external: true },
+      { name: 'Shop', href: 'https://www.thefigsmusic.com/', external: true },
     ],
     social: [
       {
@@ -69,13 +69,25 @@ export default function Footer() {
         {/* Navigation Links */}
         <nav className="flex flex-wrap justify-center gap-x-8 gap-y-2 mb-8">
           {navigation.main.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm leading-6 text-gray-600 hover:text-figs-pink transition-colors"
-            >
-              {item.name}
-            </Link>
+            item.external ? (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm leading-6 text-gray-600 hover:text-figs-pink transition-colors"
+              >
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm leading-6 text-gray-600 hover:text-figs-pink transition-colors"
+              >
+                {item.name}
+              </Link>
+            )
           ))}
         </nav>
 
